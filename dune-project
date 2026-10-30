@@ -5,7 +5,7 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github dvincelli/noize))
 
 (authors "David Vincelli <david.vincelli@gmail.com>")
 
@@ -17,7 +17,7 @@
 
 (package
  (name noize)
- (synopsis "A library for making noise")
+ (synopsis "A library for generating noise procedurally")
  (description "Noise algorithms for procedural generation and audio synthesis")
  (depends ocaml)
  (tags

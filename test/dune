@@ -1,0 +1,7 @@
+(test
+ (name test_noize)
+ (libraries noize))
+
+(test
+ (name test_perlin)
+ (libraries noize))

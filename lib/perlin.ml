@@ -1,6 +1,4 @@
-(* module Perlin : Sig.S = struct *)
-
-let permutation = [| 
+let permutation = [|
   151; 160; 137;  91;  90;  15; 131;  13; 201;  95;  96;  53; 194; 233;   7; 22;
   140;  36; 103;  30;  69; 142;   8;  99;  37; 240;  21;  10;  23; 190;   6; 148;
   247; 120; 234;  75;   0;  26; 197;  62;  94; 252; 219; 203; 117;  35;  11;  32;
@@ -96,4 +94,3 @@ let noise3 x y z = let x_ = int_of_float (floor x) land 255 in
   let nxy1 = Interpol.lerp nx01 nx11 v in
   Interpol.lerp nxy0 nxy1 w
 
-(* end *)

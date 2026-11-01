@@ -25,6 +25,10 @@ let hash x y z =
   let zi = z land 255 in
   p.(p.(p.(xi) + yi) + zi)
 
+(* 1D Gradient: maps hash to a positive or negative slope *)
+let grad1 h x =
+  if (h land 1) = 0 then x else -.x
+
 let noise1 x = let x_ = int_of_float (floor x) land 255 in
   let x = x -. floor x in (* fractional part *)
   let u = Interpol.fade x in
@@ -32,10 +36,17 @@ let noise1 x = let x_ = int_of_float (floor x) land 255 in
   let h0 = p.(x_) in
   let h1 = p.(x_ + 1) in
   (* Compute gradient contributions *)
-  let g0 = Grad.grad1 h0 x in
-  let g1 = Grad.grad1 h1 (x -. 1.0) in
+  let g0 = grad1 h0 x in
+  let g1 = grad1 h1 (x -. 1.0) in
   (* Interpolate between them *)
   Interpol.lerp g0 g1 u
+
+(* 2D Gradient: selects from 4 diagonal directions *)
+let grad2 h x y =
+  let h = h land 3 in
+  let u = if (h land 1) = 0 then x else -.x in
+  let v = if (h land 2) = 0 then y else -.y in
+  u +. v
 
 let noise2 x y = let x_ = int_of_float (floor x) land 255 in
   let y_ = int_of_float (floor y) land 255 in
@@ -49,14 +60,23 @@ let noise2 x y = let x_ = int_of_float (floor x) land 255 in
   let h10 = hash (x_ + 1) y_ 0 in
   let h11 = hash (x_ + 1) (y_ + 1) 0 in
   (* Compute gradient contributions *)
-  let g00 = Grad.grad2 h00 x y in
-  let g01 = Grad.grad2 h01 x (y -. 1.0) in
-  let g10 = Grad.grad2 h10 (x -. 1.0) y in
-  let g11 = Grad.grad2 h11 (x -. 1.0) (y -. 1.0) in
+  let g00 = grad2 h00 x y in
+  let g01 = grad2 h01 x (y -. 1.0) in
+  let g10 = grad2 h10 (x -. 1.0) y in
+  let g11 = grad2 h11 (x -. 1.0) (y -. 1.0) in
   (* Interpolate between them *)
   let nx0 = Interpol.lerp g00 g10 u in
   let nx1 = Interpol.lerp g01 g11 u in
   Interpol.lerp nx0 nx1 v
+
+(* 3D Gradient: Ken Perlin's classic 12 edge directions *)
+let grad3 h x y z =
+  let h = h land 15 in
+  let u = if h < 8 then x else y in
+  let v = if h < 4 then y else if h = 12 || h = 14 then x else z in
+  let u_sign = if (h land 1) = 0 then u else -.u in
+  let v_sign = if (h land 2) = 0 then v else -.v in
+  u_sign +. v_sign
 
 let noise3 x y z = let x_ = int_of_float (floor x) land 255 in
   let y_ = int_of_float (floor y) land 255 in
@@ -77,14 +97,14 @@ let noise3 x y z = let x_ = int_of_float (floor x) land 255 in
   let h110 = hash (x_ + 1) (y_ + 1) z_ in
   let h111 = hash (x_ + 1) (y_ + 1) (z_ + 1) in
   (* Compute gradient contributions *)
-  let g000 = Grad.grad3 h000 x y z in
-  let g001 = Grad.grad3 h001 x y (z -. 1.0) in
-  let g010 = Grad.grad3 h010 x (y -. 1.0) z in
-  let g011 = Grad.grad3 h011 x (y -. 1.0) (z -. 1.0) in
-  let g100 = Grad.grad3 h100 (x -. 1.0) y z in
-  let g101 = Grad.grad3 h101 (x -. 1.0) y (z -. 1.0) in
-  let g110 = Grad.grad3 h110 (x -. 1.0) (y -. 1.0) z in
-  let g111 = Grad.grad3 h111 (x -. 1.0) (y -. 1.0) (z -. 1.0) in
+  let g000 = grad3 h000 x y z in
+  let g001 = grad3 h001 x y (z -. 1.0) in
+  let g010 = grad3 h010 x (y -. 1.0) z in
+  let g011 = grad3 h011 x (y -. 1.0) (z -. 1.0) in
+  let g100 = grad3 h100 (x -. 1.0) y z in
+  let g101 = grad3 h101 (x -. 1.0) y (z -. 1.0) in
+  let g110 = grad3 h110 (x -. 1.0) (y -. 1.0) z in
+  let g111 = grad3 h111 (x -. 1.0) (y -. 1.0) (z -. 1.0) in
   (* Interpolate between them *)
   let nx00 = Interpol.lerp g000 g100 u in
   let nx01 = Interpol.lerp g001 g101 u in

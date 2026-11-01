@@ -11,7 +11,7 @@
 
 (maintainers "David Vincelli <david.vincelli@gmail.com>")
 
-(license LICENSE)
+(license BSD-3-Clause)
 
 (documentation https://mkl.ink/noize)
 
@@ -19,7 +19,10 @@
  (name noize)
  (synopsis "A library for generating noise procedurally")
  (description "Noise algorithms for procedural generation and audio synthesis")
- (depends ocaml stdio)
+ (depends
+   ocaml
+   (ocamlformat (and (= 0.29.0) :with-dev-setup))
+   stdio)
  (tags
   ("noise" "procedural")))
 

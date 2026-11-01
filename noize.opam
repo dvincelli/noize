@@ -4,7 +4,7 @@ synopsis: "A library for generating noise procedurally"
 description: "Noise algorithms for procedural generation and audio synthesis"
 maintainer: ["David Vincelli <david.vincelli@gmail.com>"]
 authors: ["David Vincelli <david.vincelli@gmail.com>"]
-license: "LICENSE"
+license: "BSD-3-Clause"
 tags: ["noise" "procedural"]
 homepage: "https://github.com/dvincelli/noize"
 doc: "https://mkl.ink/noize"
@@ -12,6 +12,7 @@ bug-reports: "https://github.com/dvincelli/noize/issues"
 depends: [
   "dune" {>= "3.24"}
   "ocaml"
+  "ocamlformat" {= "0.29.0" & with-dev-setup}
   "stdio"
   "odoc" {with-doc}
 ]

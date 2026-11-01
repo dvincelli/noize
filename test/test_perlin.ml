@@ -19,10 +19,11 @@ let test_edge_cases () =
 let test_perlin_1_and_3 () =
   (* 4. Test 1D and 3D dimensions run without crashing *)
   let x1 = Noize.Perlin.noise1 1.5 in
-  let x3 = Noize.Perlin.noise3 1.0 2.0 3.0 in
+  print_endline ("1D Perlin noise output: " ^ string_of_float x1);
   assert (x1 <> 0.0);
-  (* assert (x3 <> 0.0); *)
-  print_endline ("3D Perlin noise output: " ^ string_of_float x3)
+  let x3 = Noize.Perlin.noise3 1.5 2.1 3.1 in
+  print_endline ("3D Perlin noise output: " ^ string_of_float x3);
+  assert (x3 <> 0.0)
 
 let test_perlin () =
   print_endline "Running Perlin noise tests...";

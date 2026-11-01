@@ -1,3 +1,5 @@
+let seed = 42
+
 (* A seedable white noise generator with a closure for the random state. *)
 let white_generator ?(seed = 42) () =
   let state = Random.State.make [| seed |] in
@@ -9,7 +11,7 @@ let white = white_generator ()
 (* A seedable brown noise generator using the cumulative sum of white noise. *)
 let brown_generator ?(seed = 42) ?(leak = 0.997) () =
   let make_white_noise = white_generator ~seed () in
-  let last_value = ref 0.0 in
+  let last_value = ref (make_white_noise ()) in
   fun () ->
     let new_value = (!last_value *. leak) +. (make_white_noise ()) in
     last_value := new_value;
@@ -41,3 +43,28 @@ let pink_generator ?(seed = 42) () =
     output *. 0.1 (* scale down to standard amplitude range *)
 
 let pink = pink_generator ()
+
+let lehmer_generator ?(seed = 42) ?(a = 48271l) ?(m = 2147483647l) () =
+  let state = ref (Int32.of_int seed) in
+  (fun () ->
+    let prod = Int32.mul !state a in
+    let next = Int32.rem prod m in
+    state := next;
+    (Int32.to_float !state) /. (Int32.to_float m))
+
+let lemher = lehmer_generator ()
+
+let xorshift_generator ?(seed = 42) () =
+  let state = ref (Int32.of_int seed) in
+  fun () ->
+    let x = !state in
+    let x = Int32.logxor x (Int32.shift_left x 13) in
+    let x = Int32.logxor x (Int32.shift_right x 17) in
+    let x = Int32.logxor x (Int32.shift_left x 5) in
+    state := x;
+    (Int32.to_float !state) /. (Int32.to_float Int32.max_int)
+
+let xorshift = xorshift_generator ()
+
+let rec seq_of_noise f : float Seq.t =
+  fun () -> Cons (f (), seq_of_noise f)

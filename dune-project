@@ -19,7 +19,7 @@
  (name noize)
  (synopsis "A library for generating noise procedurally")
  (description "Noise algorithms for procedural generation and audio synthesis")
- (depends ocaml)
+ (depends ocaml stdio)
  (tags
   ("noise" "procedural")))
 

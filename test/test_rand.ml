@@ -40,11 +40,10 @@ let test_lehmer_generator () =
   let r2 = lehmer () in
   assert (r1 <> r2)
 
-let test_lehmer () = 
+let test_lehmer () =
   let r1 = Noize.Rand.lemher () in
   let r2 = Noize.Rand.lemher () in
   assert (r1 <> r2)
-
 
 let test_xorshift_generator () =
   let xorshift = Noize.Rand.xorshift_generator () in
@@ -58,18 +57,16 @@ let test_xorshift () =
   assert (r1 <> r2)
 
 let test_seq_of_noise () =
-  let l = 
-    Noize.Rand.seq_of_noise Noize.Rand.white
-    |> Seq.take 5
-    |> Array.of_seq 
-  in 
+  let l =
+    Noize.Rand.seq_of_noise Noize.Rand.white |> Seq.take 5 |> Array.of_seq
+  in
   assert (l.(0) <> l.(1));
   assert (l.(1) <> l.(2));
   assert (l.(2) <> l.(3));
   assert (l.(3) <> l.(4));
-  assert ((Array.length l) = 5)
+  assert (Array.length l = 5)
 
-let () = 
+let () =
   test_white ();
   test_brown ();
   test_pink ();
@@ -80,5 +77,3 @@ let () =
   test_lehmer_generator ();
   test_seq_of_noise ();
   print_endline "All tests passed!"
-
-

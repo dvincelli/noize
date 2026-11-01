@@ -1,4 +1,3 @@
-
 let test_determinism () =
   (* 1. Test Determinism: Same inputs must yield identical outputs *)
   let a = Noize.Perlin.noise2 1.23 4.56 in
@@ -33,5 +32,4 @@ let test_perlin () =
   test_perlin_1_and_3 ();
   print_endline "All Perlin tests passed successfully!"
 
-let _ =
-  test_perlin ()
+let _ = test_perlin ()

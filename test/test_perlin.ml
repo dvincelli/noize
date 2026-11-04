@@ -24,7 +24,7 @@ let test_perlin_1_and_3 () =
   print_endline ("3D Perlin noise output: " ^ string_of_float x3);
   assert (x3 <> 0.0)
 
-let test_perlin () =
+let test_perlin =
   print_endline "Running Perlin noise tests...";
   test_determinism ();
   test_active_wave_values ();
@@ -32,4 +32,4 @@ let test_perlin () =
   test_perlin_1_and_3 ();
   print_endline "All Perlin tests passed successfully!"
 
-let _ = test_perlin ()
+let _ = test_perlin

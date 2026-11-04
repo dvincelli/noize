@@ -71,9 +71,11 @@ let () =
   test_brown ();
   test_pink ();
   test_lehmer ();
+  test_xorshift ();
   test_white_noise_generator ();
   test_pink_noise_generator ();
   test_brown_noise_generator ();
   test_lehmer_generator ();
+  test_xorshift_generator ();
   test_seq_of_noise ();
   print_endline "All tests passed!"

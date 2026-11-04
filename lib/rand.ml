@@ -67,4 +67,4 @@ let xorshift_generator ?(seed = 42) () =
     Int32.to_float !state /. Int32.to_float Int32.max_int
 
 let xorshift = xorshift_generator ()
-let rec seq_of_noise f : float Seq.t = fun () -> Cons (f (), seq_of_noise f)
+let rec seq_of_noise f : float Seq.t = fun () -> Seq.Cons (f (), seq_of_noise f)

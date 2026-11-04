@@ -5,3 +5,7 @@
 (test
  (name test_rand)
  (libraries noize))
+
+(test
+ (name test_fbm)
+ (libraries noize))
